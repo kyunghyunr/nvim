@@ -67,6 +67,10 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'cohama/lexima.vim'
 Plug 'blueyed/vim-diminactive'    " Highlight the window with the cursor
+
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
 "Plug 'https://github.com/preservim/nerdtree' " NerdTree
 "Plug 'https://github.com/ryanoasis/vim-devicons' " Developer Icons
 Plug 'https://github.com/ap/vim-css-color' " CSS Color Preview
@@ -83,9 +87,37 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'kyazdani42/nvim-web-devicons' " File icons
 
+Plug 'hoob3rt/lualine.nvim'
+
 call plug#end()
 "==============================
 "******************************
+
+"------------------------------
+" treesitter setup
+lua <<EOF
+require 'nvim-treesitter.configs'.setup{
+  highlight = {
+	enable = true,
+	disable = {},
+  },
+  indent = {
+	enable = false,
+	disable = {},
+	},
+	ensure_installed = {
+	'html',
+	'scss',
+	'json',
+	'yaml',
+	'php',
+	'ruby',
+	'javascript',
+	'pug',
+	'lua'
+	}
+}
+EOF
 
 "------------------------------
 " Telescope shortcut keys
@@ -105,6 +137,45 @@ require('telescope').setup{
       },
     },
   }
+}
+EOF
+
+"-----------------------------
+" lualine
+
+lua <<EOF
+local status, lualine = pcall(require, "lualine")
+if (not status) then return end
+lualine.setup {
+  options = {
+    icons_enabled = true,
+    theme = 'dracula',
+    section_separators = {'', ''},
+    component_separators = {'', ''},
+    disabled_filetypes = {}
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch'},
+    lualine_c = {'filename'},
+    lualine_x = {
+      { 'diagnostics', sources = {"nvim_lsp"}, symbols = {error = ' ', warn = ' ', info = ' ', hint = ' '} },
+      'encoding',
+      'filetype'
+    },
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  extensions = {'fugitive'}
 }
 EOF
 
