@@ -201,9 +201,9 @@ autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.gra
 nnoremap <C-l> :call CocActionAsync('jumpDefinition')<CR>
 " Conc Install language list
 "CocInstall coc-css
-"Cocinstall coc-html
-"Cocinstall coc-json
-"Cocinstall coc-tsserver   "javascript and typescript
+"CocInstall coc-html
+"CocInstall coc-json
+"CocInstall coc-tsserver   "javascript and typescript
 "CocInstall coc-sql
 "CocInstall coc-scssmodules
 "CocInstall coc-yaml
